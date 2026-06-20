@@ -1,0 +1,372 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+body {
+overflow: hidden;
+background: black;
+color: white;
+font-family: Consolas, monospace;
+}
+
+/* Canvas created by Three.js */
+canvas {
+display: block;
+}
+
+/* ------------------ */
+/* Loading Screen */
+/* ------------------ */
+
+#loadingScreen {
+position: absolute;
+inset: 0;
+
+```
+background: black;
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+
+z-index: 1000;
+```
+
+}
+
+#loadingScreen h1 {
+color: lime;
+font-size: 3rem;
+margin-bottom: 20px;
+letter-spacing: 4px;
+}
+
+#loadingScreen p {
+margin-bottom: 30px;
+color: #bbb;
+}
+
+#startButton {
+padding: 12px 24px;
+cursor: pointer;
+font-size: 1rem;
+
+```
+border: 2px solid lime;
+background: black;
+color: lime;
+```
+
+}
+
+#startButton:hover {
+background: lime;
+color: black;
+}
+
+/* ------------------ */
+/* HUD */
+/* ------------------ */
+
+#hud {
+position: absolute;
+inset: 0;
+pointer-events: none;
+
+```
+z-index: 50;
+```
+
+}
+
+#healthContainer {
+position: absolute;
+top: 15px;
+left: 15px;
+
+```
+background: rgba(0,0,0,0.6);
+padding: 8px 12px;
+border: 1px solid white;
+```
+
+}
+
+#ammoContainer {
+position: absolute;
+bottom: 15px;
+right: 15px;
+
+```
+background: rgba(0,0,0,0.6);
+padding: 8px 12px;
+border: 1px solid white;
+```
+
+}
+
+#objectiveContainer {
+position: absolute;
+top: 15px;
+left: 50%;
+
+```
+transform: translateX(-50%);
+
+background: rgba(0,0,0,0.6);
+
+padding: 8px 16px;
+
+border: 1px solid white;
+```
+
+}
+
+/* ------------------ */
+/* Crosshair */
+/* ------------------ */
+
+#crosshair {
+position: absolute;
+
+```
+left: 50%;
+top: 50%;
+
+transform: translate(-50%, -50%);
+
+font-size: 26px;
+
+z-index: 40;
+
+pointer-events: none;
+```
+
+}
+
+/* ------------------ */
+/* Interaction Prompt */
+/* ------------------ */
+
+#interactionPrompt {
+position: absolute;
+
+```
+left: 50%;
+bottom: 80px;
+
+transform: translateX(-50%);
+
+background: rgba(0,0,0,0.75);
+
+border: 1px solid white;
+
+padding: 10px 20px;
+
+display: none;
+
+z-index: 60;
+```
+
+}
+
+/* ------------------ */
+/* Terminal */
+/* ------------------ */
+
+#terminalWindow {
+
+```
+position: absolute;
+
+width: 700px;
+max-width: 90vw;
+
+height: 500px;
+max-height: 80vh;
+
+left: 50%;
+top: 50%;
+
+transform: translate(-50%, -50%);
+
+background: black;
+
+border: 2px solid lime;
+
+display: none;
+
+z-index: 200;
+```
+
+}
+
+#terminalHeader {
+
+```
+background: lime;
+color: black;
+
+padding: 12px;
+
+font-weight: bold;
+```
+
+}
+
+#terminalContent {
+
+```
+padding: 20px;
+
+color: lime;
+
+line-height: 1.8;
+
+overflow-y: auto;
+
+height: calc(100% - 100px);
+```
+
+}
+
+#closeTerminal {
+
+```
+position: absolute;
+
+bottom: 10px;
+right: 10px;
+
+padding: 10px 20px;
+
+border: 1px solid lime;
+
+background: black;
+
+color: lime;
+
+cursor: pointer;
+```
+
+}
+
+#closeTerminal:hover {
+background: lime;
+color: black;
+}
+
+/* ------------------ */
+/* Game Over */
+/* ------------------ */
+
+#gameOverScreen {
+
+```
+position: absolute;
+
+inset: 0;
+
+background: rgba(0,0,0,0.95);
+
+display: none;
+
+flex-direction: column;
+
+justify-content: center;
+
+align-items: center;
+
+z-index: 500;
+```
+
+}
+
+#gameOverScreen h1 {
+color: red;
+margin-bottom: 20px;
+}
+
+#gameOverScreen p {
+margin-bottom: 25px;
+}
+
+#gameOverScreen button {
+
+```
+padding: 12px 24px;
+
+cursor: pointer;
+```
+
+}
+
+/* ------------------ */
+/* Victory */
+/* ------------------ */
+
+#victoryScreen {
+
+```
+position: absolute;
+
+inset: 0;
+
+background: rgba(255,255,255,0.95);
+
+color: black;
+
+display: none;
+
+flex-direction: column;
+
+justify-content: center;
+
+align-items: center;
+
+z-index: 500;
+```
+
+}
+
+#victoryScreen h1 {
+margin-bottom: 20px;
+}
+
+#victoryScreen p {
+margin-bottom: 25px;
+}
+
+#victoryScreen button {
+
+```
+padding: 12px 24px;
+
+cursor: pointer;
+```
+
+}
+
+/* ------------------ */
+/* Flicker Effect */
+/* ------------------ */
+
+.flicker {
+animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+
+```
+0% { opacity: 1; }
+20% { opacity: 0.6; }
+40% { opacity: 1; }
+60% { opacity: 0.4; }
+80% { opacity: 1; }
+100% { opacity: 0.8; }
+```
+
+}
