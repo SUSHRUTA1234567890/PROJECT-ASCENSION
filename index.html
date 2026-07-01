@@ -6,11 +6,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #000; color: #fff; }
         canvas { display: block; }
-        #loadingScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; }
-        #loadingScreen h1 { font-size: 3em; color: #00ff88; text-shadow: 0 0 10px #00ff88; margin-bottom: 20px; }
-        #startButton { padding: 15px 40px; background: #00ff88; color: #000; border: none; cursor: pointer; font-size: 1.2em; border-radius: 5px; }
-        #hud { position: fixed; top: 20px; left: 20px; color: #00ff88; display: none; z-index: 100; font-family: monospace; }
-        #crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2em; color: #00ff88; display: none; z-index: 99; }
+        #hud { position: fixed; top: 20px; left: 20px; color: #00ff88; z-index: 100; font-family: monospace; }
+        #crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2em; color: #00ff88; z-index: 99; }
         #terminalWindow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 400px; background: #0a0a0a; border: 2px solid #00ff88; display: none; flex-direction: column; z-index: 500; }
         #terminalContent { flex: 1; padding: 15px; color: #00ff88; font-family: monospace; overflow-y: auto; }
         #closeTerminal { padding: 10px; background: #00ff88; color: #000; border: none; cursor: pointer; }
@@ -18,11 +15,6 @@
     </style>
 </head>
 <body>
-
-<div id="loadingScreen">
-    <h1>PROJECT ASCENSION</h1>
-    <button id="startButton">ENTER FACILITY</button>
-</div>
 
 <div id="hud">
     <div>Health: 100</div>
@@ -157,13 +149,9 @@ objects.push(createTerminal(0, -50, 2));
 objects.push(createKeycard());
 objects.push(createReactor());
 
-document.getElementById('startButton').onclick = () => {
-    document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('hud').style.display = 'block';
-    document.getElementById('crosshair').style.display = 'block';
-    controls.lock();
-    canMove = true;
-};
+// Start game immediately
+controls.lock();
+canMove = true;
 
 document.addEventListener('pointerlockchange', () => {
     canMove = document.pointerLockElement === document.body;
