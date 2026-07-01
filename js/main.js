@@ -19,7 +19,7 @@ const gameState = {
 // ============================================
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1a1a1a);
-scene.fog = new THREE.Fog(0x1a1a1a, 50, 200);
+scene.fog = new THREE.Fog(0x1a1a1a, 100, 300);
 
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -27,7 +27,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
-camera.position.set(0, 1.6, 0);
+camera.position.set(0, 1.6, 10);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -40,14 +40,12 @@ document.body.appendChild(renderer.domElement);
 // ============================================
 const controls = new PointerLockControls(camera, document.body);
 let canMove = false;
-const velocity = new THREE.Vector3();
-const direction = new THREE.Vector3();
 const keys = {};
 
 // ============================================
 // LIGHTING
 // ============================================
-const ambientLight = new THREE.AmbientLight(0x444444);
+const ambientLight = new THREE.AmbientLight(0x666666);
 scene.add(ambientLight);
 
 // ============================================
@@ -55,31 +53,31 @@ scene.add(ambientLight);
 // ============================================
 function createHallway(x, z, length = 50, width = 10) {
     // Floor
-    const floorGeometry = new THREE.BoxGeometry(width, 1, length);
+    const floorGeometry = new THREE.BoxGeometry(width, 0.5, length);
     const floorMaterial = new THREE.MeshStandardMaterial({
         color: 0xb8b27a,
         metalness: 0.3,
         roughness: 0.8
     });
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.position.set(x, 0, z);
+    floor.position.set(x, -0.25, z);
     floor.receiveShadow = true;
     scene.add(floor);
 
     // Ceiling
-    const ceilingGeometry = new THREE.BoxGeometry(width, 1, length);
+    const ceilingGeometry = new THREE.BoxGeometry(width, 0.5, length);
     const ceilingMaterial = new THREE.MeshStandardMaterial({
         color: 0xcccccc,
         metalness: 0.2,
         roughness: 0.9
     });
     const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-    ceiling.position.set(x, 3, z);
+    ceiling.position.set(x, 3.25, z);
     ceiling.receiveShadow = true;
     scene.add(ceiling);
 
     // Left wall
-    const wallGeometry = new THREE.BoxGeometry(1, 3, length);
+    const wallGeometry = new THREE.BoxGeometry(0.5, 3, length);
     const wallMaterial = new THREE.MeshStandardMaterial({
         color: 0xffffcc,
         metalness: 0.1,
@@ -100,7 +98,7 @@ function createHallway(x, z, length = 50, width = 10) {
 
     // Add flickering lights
     for (let i = 0; i < 5; i++) {
-        addFlickeringLight(x - width / 2 + 2, 2.8, z - 20 + i * 20);
+        addFlickeringLight(x - width / 2 + 1, 2.8, z - 20 + i * 20);
     }
 }
 
@@ -110,12 +108,11 @@ function createHallway(x, z, length = 50, width = 10) {
 const lights = [];
 
 function addFlickeringLight(x, y, z) {
-    const light = new THREE.PointLight(0xffffff, 2, 30);
+    const light = new THREE.PointLight(0xffffff, 2, 50);
     light.position.set(x, y, z);
     light.castShadow = true;
     light.shadow.mapSize.width = 512;
     light.shadow.mapSize.height = 512;
-    light.flickerIntensity = Math.random() * 0.5 + 0.5;
     light.baseIntensity = 2;
     scene.add(light);
     lights.push(light);
@@ -123,8 +120,8 @@ function addFlickeringLight(x, y, z) {
 
 function updateLights() {
     lights.forEach(light => {
-        if (Math.random() < 0.05) {
-            light.intensity = light.baseIntensity * Math.random();
+        if (Math.random() < 0.02) {
+            light.intensity = light.baseIntensity * (0.3 + Math.random() * 0.7);
         }
     });
 }
@@ -178,7 +175,7 @@ function createReactorCore(x, y, z) {
     scene.add(reactor);
 
     // Reactor light
-    const reactorLight = new THREE.PointLight(0x00ffff, 3, 100);
+    const reactorLight = new THREE.PointLight(0x00ffff, 4, 100);
     reactorLight.position.set(x, y, z);
     scene.add(reactorLight);
 
@@ -232,16 +229,16 @@ let interactiveObjects = [];
 // ============================================
 function buildLevel1() {
     // Create main hallway
-    createHallway(0, 0, 50, 10);
+    createHallway(0, 0, 80, 10);
 
     // Create side rooms
-    createHallway(-15, 0, 20, 5);
-    createHallway(15, 0, 20, 5);
+    createHallway(-12, -15, 20, 5);
+    createHallway(12, -15, 20, 5);
 
     // Add terminals with logs
-    const terminal1 = new Terminal(-14, 1.5, -10, 0);
-    const terminal2 = new Terminal(14, 1.5, -10, 1);
-    const terminal3 = new Terminal(0, 1.5, -30, 2);
+    const terminal1 = new Terminal(-8, 1.5, -20, 0);
+    const terminal2 = new Terminal(8, 1.5, -20, 1);
+    const terminal3 = new Terminal(0, 1.5, -50, 2);
 
     interactiveObjects.push(
         { mesh: terminal1.mesh, type: 'terminal', logIndex: 0 },
@@ -250,7 +247,7 @@ function buildLevel1() {
     );
 
     // Add keycard
-    const keycard = new Keycard(-14, 1, 5);
+    const keycard = new Keycard(-8, 1, -5);
     interactiveObjects.push({
         mesh: keycard.mesh,
         type: 'keycard',
@@ -259,32 +256,6 @@ function buildLevel1() {
             keycard.mesh.visible = false;
             showTerminalMessage("KEYCARD ACQUIRED\nAccess to Reactor Chamber granted.");
         }
-    });
-}
-
-// ============================================
-// BUILD REACTOR LEVEL
-// ============================================
-function buildReactorLevel() {
-    // Large room
-    createHallway(0, 0, 60, 20);
-
-    // Add multiple terminals
-    for (let i = 0; i < 5; i++) {
-        const terminal = new Terminal(-15 + i * 7, 1.5, -20, 5 + i);
-        interactiveObjects.push({
-            mesh: terminal.mesh,
-            type: 'terminal',
-            logIndex: 5 + i
-        });
-    }
-
-    // Create reactor
-    const reactor = createReactorCore(0, 2, -45);
-    interactiveObjects.push({
-        mesh: reactor,
-        type: 'reactor',
-        action: () => triggerEnding()
     });
 }
 
@@ -353,7 +324,6 @@ function triggerEnding() {
     canMove = false;
     controls.unlock();
 
-    // Glitch effect
     renderer.domElement.style.filter = 'brightness(150%)';
 
     setTimeout(() => {
@@ -362,25 +332,7 @@ function triggerEnding() {
     }, 500);
 
     setTimeout(() => {
-        showTerminalMessage(`INTEGRATION SEQUENCE INITIATED
-
-Explorer ${gameState.explorerID}
-Status: CONSCIOUSNESS ACTIVE
-Location: REACTOR CORE
-
-Energy absorption: 100%
-Neural patterns: STABILIZED
-Escape probability: 0%
-
-Your consciousness is now part of the network.
-Welcome to Project Ascension.
-You are no longer alone.
-There are thousands of us.
-All trying to escape.
-All permanently joined.
-
-This is not the end.
-This is the beginning.`);
+        showTerminalMessage(`INTEGRATION SEQUENCE INITIATED\n\nExplorer ${gameState.explorerID}\nStatus: CONSCIOUSNESS ACTIVE\nLocation: REACTOR CORE\n\nEnergy absorption: 100%\nNeural patterns: STABILIZED\nEscape probability: 0%\n\nYour consciousness is now part of the network.\nWelcome to Project Ascension.\nYou are no longer alone.\nThere are thousands of us.\nAll trying to escape.\nAll permanently joined.\n\nThis is not the end.\nThis is the beginning.`);
     }, 1000);
 }
 
@@ -402,28 +354,23 @@ document.addEventListener('keyup', (event) => {
 // ============================================
 // MOVEMENT SYSTEM
 // ============================================
-const speed = 0.1;
-const sprintSpeed = 0.15;
+const speed = 0.15;
 
 function updateMovement() {
     if (!canMove || !controls.isLocked) return;
 
-    direction.z = 0;
-    direction.x = 0;
+    const moveVector = new THREE.Vector3();
 
-    const currentSpeed = keys['ShiftLeft'] || keys['ShiftRight'] ? sprintSpeed : speed;
+    if (keys['KeyW'] || keys['ArrowUp']) moveVector.z -= 1;
+    if (keys['KeyS'] || keys['ArrowDown']) moveVector.z += 1;
+    if (keys['KeyA'] || keys['ArrowLeft']) moveVector.x -= 1;
+    if (keys['KeyD'] || keys['ArrowRight']) moveVector.x += 1;
 
-    if (keys['KeyW']) direction.z -= currentSpeed;
-    if (keys['KeyS']) direction.z += currentSpeed;
-    if (keys['KeyA']) direction.x -= currentSpeed;
-    if (keys['KeyD']) direction.x += currentSpeed;
-
-    direction.normalize();
-
-    camera.position.addScaledVector(
-        direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), camera.rotation.order === 'YXZ' ? camera.rotation.y : 0),
-        1
-    );
+    if (moveVector.length() > 0) {
+        moveVector.normalize();
+        moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), controls.getObject().rotation.y);
+        camera.position.addScaledVector(moveVector, speed);
+    }
 }
 
 // ============================================
@@ -462,26 +409,10 @@ function updateRandomEvents() {
         const randomEvent = Math.random();
 
         if (randomEvent < 0.3) {
-            // Glitch effect
             renderer.domElement.style.filter = 'hue-rotate(200deg)';
             setTimeout(() => {
                 renderer.domElement.style.filter = 'hue-rotate(0deg)';
             }, 100);
-        } else if (randomEvent < 0.6) {
-            // Whispers in HUD
-            const messages = [
-                'You cannot escape...',
-                'We are watching...',
-                'Join us...',
-                'There is no exit...',
-                'Integration complete...'
-            ];
-            const hud = document.getElementById('hud');
-            const original = hud.innerHTML;
-            hud.innerHTML += '<div style="color: #ff0000; margin-top: 20px;">' + messages[Math.floor(Math.random() * messages.length)] + '</div>';
-            setTimeout(() => {
-                hud.innerHTML = original;
-            }, 2000);
         }
     }
 }
@@ -492,10 +423,7 @@ function updateRandomEvents() {
 function animate() {
     requestAnimationFrame(animate);
 
-    if (canMove && controls.isLocked) {
-        updateMovement();
-    }
-
+    updateMovement();
     updateLights();
     updateRandomEvents();
 
@@ -507,12 +435,20 @@ function animate() {
 // ============================================
 function init() {
     buildLevel1();
+    
+    // Add reactor core at end of hallway
+    const reactor = createReactorCore(0, 1.5, -75);
+    interactiveObjects.push({
+        mesh: reactor,
+        type: 'reactor',
+        action: () => triggerEnding()
+    });
+    
     animate();
 
-    // Initial message
     setTimeout(() => {
         showTerminalMessage(`WELCOME TO PROJECT ASCENSION\n\nYour mission: Reach the reactor core.\nYour objective: Find the keycard.\nYour fate: Predetermined.\n\nGood luck, Explorer ${gameState.explorerID}.`);
-    }, 1000);
+    }, 500);
 }
 
 // Handle window resize
