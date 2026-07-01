@@ -1,21 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Ascension</title>
-
-```
-<link rel="stylesheet" href="./css/style.css">
-```
-
+    <link rel="stylesheet" href="./css/style.css">
 </head>
-
 <body>
 
-```
 <!-- Loading Screen -->
 <div id="loadingScreen">
     <h1>PROJECT ASCENSION</h1>
@@ -25,21 +17,15 @@
 
 <!-- HUD -->
 <div id="hud">
-
     <div id="healthContainer">
-        Health:
-        <span id="healthValue">100</span>
+        Health: <span id="healthValue">100</span>
     </div>
-
     <div id="objectiveContainer">
         Objective: Find the Keycard
     </div>
-
     <div id="ammoContainer">
-        ARC Tool Energy:
-        <span id="ammoValue">50</span>
+        ARC Tool Energy: <span id="ammoValue">50</span>
     </div>
-
 </div>
 
 <!-- Crosshair -->
@@ -47,60 +33,46 @@
 
 <!-- Interaction Prompt -->
 <div id="interactionPrompt">
-    Press E
+    Press E to interact
 </div>
 
 <!-- Terminal Window -->
 <div id="terminalWindow">
-
     <div id="terminalHeader">
         PROJECT ASCENSION TERMINAL
     </div>
-
     <div id="terminalContent">
         Loading...
     </div>
-
     <button id="closeTerminal">
         Close
     </button>
-
 </div>
 
 <!-- Game Over Screen -->
 <div id="gameOverScreen">
-
     <h1>INTEGRATION COMPLETE</h1>
-
     <p>
         Your consciousness has joined the reactor network.
     </p>
-
     <button onclick="location.reload()">
         Restart
     </button>
-
 </div>
 
 <!-- Victory Screen -->
 <div id="victoryScreen">
-
     <h1>WELCOME TO PROJECT ASCENSION</h1>
-
     <p>
         Energy cannot escape.
     </p>
-
     <button onclick="location.reload()">
         Play Again
     </button>
-
 </div>
 
 <!-- Main Game -->
 <script type="module" src="./js/main.js"></script>
-```
 
 </body>
-
 </html>
