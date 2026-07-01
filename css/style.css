@@ -1,372 +1,321 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-overflow: hidden;
-background: black;
-color: white;
-font-family: Consolas, monospace;
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
 }
 
-/* Canvas created by Three.js */
 canvas {
-display: block;
+    display: block;
+    width: 100%;
+    height: 100vh;
 }
 
-/* ------------------ */
 /* Loading Screen */
-/* ------------------ */
-
 #loadingScreen {
-position: absolute;
-inset: 0;
-
-```
-background: black;
-
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-
-z-index: 1000;
-```
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-in;
 }
 
 #loadingScreen h1 {
-color: lime;
-font-size: 3rem;
-margin-bottom: 20px;
-letter-spacing: 4px;
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #00ff88;
+    text-shadow: 0 0 10px #00ff88;
+    letter-spacing: 3px;
 }
 
 #loadingScreen p {
-margin-bottom: 30px;
-color: #bbb;
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #888;
+    animation: pulse 1.5s infinite;
 }
 
 #startButton {
-padding: 12px 24px;
-cursor: pointer;
-font-size: 1rem;
-
-```
-border: 2px solid lime;
-background: black;
-color: lime;
-```
-
+    padding: 15px 40px;
+    font-size: 1.2em;
+    background-color: #00ff88;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: bold;
 }
 
 #startButton:hover {
-background: lime;
-color: black;
+    background-color: #00cc66;
+    box-shadow: 0 0 20px #00ff88;
 }
 
-/* ------------------ */
 /* HUD */
-/* ------------------ */
-
 #hud {
-position: absolute;
-inset: 0;
-pointer-events: none;
-
-```
-z-index: 50;
-```
-
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 1.1em;
+    color: #00ff88;
+    text-shadow: 0 0 10px #00ff88;
+    font-family: 'Courier New', monospace;
+    display: none;
+    z-index: 100;
 }
 
-#healthContainer {
-position: absolute;
-top: 15px;
-left: 15px;
-
-```
-background: rgba(0,0,0,0.6);
-padding: 8px 12px;
-border: 1px solid white;
-```
-
-}
-
+#healthContainer,
+#objectiveContainer,
 #ammoContainer {
-position: absolute;
-bottom: 15px;
-right: 15px;
-
-```
-background: rgba(0,0,0,0.6);
-padding: 8px 12px;
-border: 1px solid white;
-```
-
+    margin-bottom: 15px;
+    border: 1px solid #00ff88;
+    padding: 8px 12px;
+    background-color: rgba(0, 255, 136, 0.1);
 }
 
-#objectiveContainer {
-position: absolute;
-top: 15px;
-left: 50%;
-
-```
-transform: translateX(-50%);
-
-background: rgba(0,0,0,0.6);
-
-padding: 8px 16px;
-
-border: 1px solid white;
-```
-
+#healthValue,
+#ammoValue {
+    font-weight: bold;
+    color: #ff0000;
 }
 
-/* ------------------ */
 /* Crosshair */
-/* ------------------ */
-
 #crosshair {
-position: absolute;
-
-```
-left: 50%;
-top: 50%;
-
-transform: translate(-50%, -50%);
-
-font-size: 26px;
-
-z-index: 40;
-
-pointer-events: none;
-```
-
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: #00ff88;
+    pointer-events: none;
+    display: none;
+    z-index: 99;
+    text-shadow: 0 0 10px #00ff88;
 }
 
-/* ------------------ */
 /* Interaction Prompt */
-/* ------------------ */
-
 #interactionPrompt {
-position: absolute;
-
-```
-left: 50%;
-bottom: 80px;
-
-transform: translateX(-50%);
-
-background: rgba(0,0,0,0.75);
-
-border: 1px solid white;
-
-padding: 10px 20px;
-
-display: none;
-
-z-index: 60;
-```
-
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 20px;
+    background-color: rgba(0, 255, 136, 0.2);
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    border-radius: 5px;
+    display: none;
+    z-index: 98;
+    animation: blink 0.5s infinite;
 }
 
-/* ------------------ */
-/* Terminal */
-/* ------------------ */
-
+/* Terminal Window */
 #terminalWindow {
-
-```
-position: absolute;
-
-width: 700px;
-max-width: 90vw;
-
-height: 500px;
-max-height: 80vh;
-
-left: 50%;
-top: 50%;
-
-transform: translate(-50%, -50%);
-
-background: black;
-
-border: 2px solid lime;
-
-display: none;
-
-z-index: 200;
-```
-
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 400px;
+    background-color: #0a0a0a;
+    border: 2px solid #00ff88;
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    z-index: 500;
+    box-shadow: 0 0 30px #00ff88;
 }
 
 #terminalHeader {
-
-```
-background: lime;
-color: black;
-
-padding: 12px;
-
-font-weight: bold;
-```
-
+    padding: 15px;
+    background-color: rgba(0, 255, 136, 0.2);
+    border-bottom: 1px solid #00ff88;
+    color: #00ff88;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
 }
 
 #terminalContent {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    color: #00ff88;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
 
-```
-padding: 20px;
+#terminalContent::-webkit-scrollbar {
+    width: 8px;
+}
 
-color: lime;
+#terminalContent::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
 
-line-height: 1.8;
-
-overflow-y: auto;
-
-height: calc(100% - 100px);
-```
-
+#terminalContent::-webkit-scrollbar-thumb {
+    background: #00ff88;
+    border-radius: 4px;
 }
 
 #closeTerminal {
-
-```
-position: absolute;
-
-bottom: 10px;
-right: 10px;
-
-padding: 10px 20px;
-
-border: 1px solid lime;
-
-background: black;
-
-color: lime;
-
-cursor: pointer;
-```
-
+    padding: 10px;
+    background-color: #00ff88;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 0 0 3px 3px;
+    transition: all 0.3s ease;
 }
 
 #closeTerminal:hover {
-background: lime;
-color: black;
+    background-color: #00cc66;
 }
 
-/* ------------------ */
-/* Game Over */
-/* ------------------ */
-
+/* Game Over Screen */
 #gameOverScreen {
-
-```
-position: absolute;
-
-inset: 0;
-
-background: rgba(0,0,0,0.95);
-
-display: none;
-
-flex-direction: column;
-
-justify-content: center;
-
-align-items: center;
-
-z-index: 500;
-```
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #2d0000 0%, #8b0000 100%);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    text-align: center;
 }
 
 #gameOverScreen h1 {
-color: red;
-margin-bottom: 20px;
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #ff4444;
+    text-shadow: 0 0 20px #ff0000;
 }
 
 #gameOverScreen p {
-margin-bottom: 25px;
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #ddd;
 }
 
 #gameOverScreen button {
-
-```
-padding: 12px 24px;
-
-cursor: pointer;
-```
-
+    padding: 15px 40px;
+    font-size: 1.2em;
+    background-color: #ff4444;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
-/* ------------------ */
-/* Victory */
-/* ------------------ */
+#gameOverScreen button:hover {
+    background-color: #ff0000;
+    box-shadow: 0 0 20px #ff0000;
+}
 
+/* Victory Screen */
 #victoryScreen {
-
-```
-position: absolute;
-
-inset: 0;
-
-background: rgba(255,255,255,0.95);
-
-color: black;
-
-display: none;
-
-flex-direction: column;
-
-justify-content: center;
-
-align-items: center;
-
-z-index: 500;
-```
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, #00ffff 0%, #0088ff 100%);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    text-align: center;
 }
 
 #victoryScreen h1 {
-margin-bottom: 20px;
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 0 30px #00ffff;
 }
 
 #victoryScreen p {
-margin-bottom: 25px;
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    color: #ddd;
 }
 
 #victoryScreen button {
-
-```
-padding: 12px 24px;
-
-cursor: pointer;
-```
-
+    padding: 15px 40px;
+    font-size: 1.2em;
+    background-color: #00ffff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: bold;
 }
 
-/* ------------------ */
-/* Flicker Effect */
-/* ------------------ */
-
-.flicker {
-animation: flicker 0.15s infinite;
+#victoryScreen button:hover {
+    background-color: #00ccff;
+    box-shadow: 0 0 20px #00ffff;
 }
 
-@keyframes flicker {
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
-```
-0% { opacity: 1; }
-20% { opacity: 0.6; }
-40% { opacity: 1; }
-60% { opacity: 0.4; }
-80% { opacity: 1; }
-100% { opacity: 0.8; }
-```
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
 
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Glitch Effect */
+.glitch {
+    animation: glitch 0.3s infinite;
+}
+
+@keyframes glitch {
+    0%, 100% {
+        text-shadow: 0 0 10px #00ff88;
+    }
+    50% {
+        text-shadow: 0 0 20px #ff0000;
+    }
 }
